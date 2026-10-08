@@ -26,9 +26,11 @@ import matplotlib.pyplot as plt
 
 plt.rcParams["font.sans-serif"] = ["SimHei", "Droid Sans Fallback"]
 plt.rcParams["axes.unicode_minus"] = False
-plt.rcParams["mathtext.fontset"] = "dejavusans"
-plt.rcParams["font.size"] = 8.5        # 图内基准字号
+plt.rcParams["mathtext.fontset"] = "stix"   # 新罗马斜体风格的数学符号
+plt.rcParams["font.size"] = 7.5        # 图内所有文字统一为六号（7.5 pt）
 plt.rcParams["axes.linewidth"] = 0.8
+plt.rcParams["xtick.major.width"] = 0.8    # 刻度线宽与边框一致
+plt.rcParams["ytick.major.width"] = 0.8
 
 CM = 1.0 / 2.54                        # 厘米 → 英寸
 DPI = 400
@@ -59,15 +61,15 @@ STYLES8 = [
 ]
 
 
-def save(fig, name, tight=True):
-    fig.savefig(os.path.join(FIG_DIR, name), dpi=DPI,
-                bbox_inches="tight" if tight else None)
+def save(fig, name):
+    # bbox_inches="tight" 裁掉图四周的白边
+    fig.savefig(os.path.join(FIG_DIR, name), dpi=DPI, bbox_inches="tight")
     plt.close(fig)
 
 
 def fig1_chi():
     """图1：碰撞概率随粒子权重密度的变化。"""
-    fig, ax = plt.subplots(figsize=(6.0 * CM, 5.2 * CM))
+    fig, ax = plt.subplots(figsize=(6.0 * CM, 4.5 * CM))
 
     w = np.linspace(0, 1.6, 600)
     w_c, chi0, delta = 0.5, 1.0, 0.05
@@ -94,7 +96,7 @@ def fig2a_density():
     x, snap_times, snaps = d["x"], d["snap_times"], d["snapshots"]
     w_c = float(d["par_w_c"])
 
-    fig, ax = plt.subplots(figsize=(6.0 * CM, 5.4 * CM))
+    fig, ax = plt.subplots(figsize=(6.0 * CM, 4.5 * CM))
 
     show = [0.0, 2.0, 5.0, 8.0, 10.0, 12.0, 15.0, 20.0]
     for i, ts in enumerate(show):
@@ -102,14 +104,13 @@ def fig2a_density():
         st = STYLES8[i % len(STYLES8)]
         ax.plot(x, snaps[j], lw=1.3, label=f"$t={ts:g}$", **st)
     ax.axhline(w_c, color="0.2", lw=1.1, ls=(0, (5, 2)))
-    ax.text(9.8, w_c + 0.03, "$w_c$", ha="right")
     ax.set_xlabel("位置 $x$")
     ax.set_ylabel(r"粒子权重密度 $w(x,t)$")
     ax.set_xlim(0, 10)
-    ax.set_ylim(0, 1.3)
+    ax.set_ylim(0, 1.35)
     ax.tick_params(labelsize=7.5)
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=4,
-              fontsize=6.3, frameon=False, columnspacing=0.6,
+              fontsize=7.5, frameon=False, columnspacing=0.6,
               handlelength=1.3, labelspacing=0.25, borderaxespad=0.2)
 
     fig.tight_layout()
@@ -121,7 +122,7 @@ def fig2b_flux():
     d = np.load(os.path.join(DATA_DIR, "baseline.npz"))
     t, flux = d["time"], d["flux_total"]
 
-    fig, ax = plt.subplots(figsize=(6.0 * CM, 5.2 * CM))
+    fig, ax = plt.subplots(figsize=(6.0 * CM, 4.5 * CM))
 
     ax.axvspan(2.0, 12.0, color="0.94", zorder=0)
     ax.plot(t, flux, color="0.1", lw=1.5)
@@ -132,7 +133,7 @@ def fig2b_flux():
     ax.tick_params(labelsize=7.5)
 
     fig.tight_layout()
-    save(fig, "fig2b_flux.png", tight=False)
+    save(fig, "fig2b_flux.png")
 
 
 def fig3_flux_L():
@@ -140,7 +141,7 @@ def fig3_flux_L():
     d = np.load(os.path.join(DATA_DIR, "L_scan.npz"))
     L_vals = d["L_values"]
 
-    fig, ax = plt.subplots(figsize=(6.0 * CM, 5.2 * CM))
+    fig, ax = plt.subplots(figsize=(6.0 * CM, 4.5 * CM))
     for i, Lv in enumerate(L_vals):
         st = STYLES[i % len(STYLES)]
         ax.plot(d[f"time_{i}"], d[f"flux_{i}"], lw=1.4,
@@ -153,7 +154,7 @@ def fig3_flux_L():
     ax.legend(loc="upper right", fontsize=7.5, frameon=False)
 
     fig.tight_layout()
-    save(fig, "fig3_flux_L.png", tight=False)
+    save(fig, "fig3_flux_L.png")
 
 
 def fig4_flux_wtot():
@@ -161,7 +162,7 @@ def fig4_flux_wtot():
     d = np.load(os.path.join(DATA_DIR, "wtot_scan.npz"))
     W_vals = d["W_tot_values"]
 
-    fig, ax = plt.subplots(figsize=(6.0 * CM, 5.2 * CM))
+    fig, ax = plt.subplots(figsize=(6.0 * CM, 4.5 * CM))
     for i, W in enumerate(W_vals):
         st = STYLES[i % len(STYLES)]
         ax.plot(d[f"time_{i}"], d[f"flux_{i}"], lw=1.4,
@@ -174,7 +175,7 @@ def fig4_flux_wtot():
     ax.legend(loc="upper right", fontsize=7.5, frameon=False)
 
     fig.tight_layout()
-    save(fig, "fig4_flux_wtot.png", tight=False)
+    save(fig, "fig4_flux_wtot.png")
 
 
 def main():
