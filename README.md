@@ -12,7 +12,6 @@
 ## 运行环境
 
 - Python 3（建议 3.8 及以上），依赖 numpy 与 matplotlib。
-- 图的坐标轴标签为中文，系统需装有中文字体（如 SimHei 或 Droid Sans Fallback），否则标签可能显示为方框，但不影响计算与数据。
 
 ## 使用方法
 
@@ -43,7 +42,6 @@ The flux escaping from the rod ends naturally exhibits three successive stages, 
 ## Requirements
 
 - Python 3 (3.8 or later recommended), with numpy and matplotlib installed.
-- The axis labels in the figures are in Chinese, so a Chinese font (e.g. SimHei or Droid Sans Fallback) is needed for proper rendering; missing fonts only affect the labels, not the computation or the data.
 
 ## Usage
 
