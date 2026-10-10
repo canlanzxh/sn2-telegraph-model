@@ -113,8 +113,9 @@ def fig2a_density():
               fontsize=7.5, frameon=False, columnspacing=0.6,
               handlelength=1.3, labelspacing=0.25, borderaxespad=0.2)
 
-    # 图例在坐标框外上方，顶部预留空间防止被画布边缘裁掉
-    fig.tight_layout(rect=[0, 0, 1, 0.84])
+    # tight_layout 会把图外图例一并纳入布局，无需额外预留空间；
+    # pad 收紧图元与画布边缘的距离
+    fig.tight_layout(pad=0.4)
     save(fig, "fig2a_density.png")
 
 
